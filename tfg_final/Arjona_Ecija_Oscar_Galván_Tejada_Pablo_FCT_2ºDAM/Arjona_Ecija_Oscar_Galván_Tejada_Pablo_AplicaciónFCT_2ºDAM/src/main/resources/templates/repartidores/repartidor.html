@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Map API</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBHqg2GHjs1qg7uA-OPSMamqJT7KcyUEBI"></script>
+    <script th:inline="javascript">
+        var locations = /*[[${ubicaciones}]]*/ [];
+        var locations2 = /*[[${ubicaciones}]]*/ [];
+    </script>
+        <!-- Bootstrap core CSS -->
+     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/bootstrap/css/jumbotron.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/sticky-footer-navbar.css}" rel="stylesheet">
+    <link href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+	integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+	crossorigin="anonymous">
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+	integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+	crossorigin="anonymous"></script>
+    <style>
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<style>
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+nav, form {
+	display: flex;
+	justify-content: center;
+}
+
+body {
+	font-family: Helvetica;
+	-webkit-font-smoothing: antialiased;
+	background: #E0C500;
+}
+
+h2 {
+	text-align: center;
+	font-size: 18px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: white;
+	padding: 30px 0;
+}
+
+/* Table Styles */
+.table-wrapper {
+	margin: 10px 70px 70px;
+	box-shadow: 0px 35px 50px rgba(0, 0, 0, 0.2);
+}
+
+.fl-table {
+	border-radius: 5px;
+	font-size: 12px;
+	font-weight: normal;
+	border: none;
+	border-collapse: collapse;
+	width: 100%;
+	max-width: 100%;
+	white-space: nowrap;
+	background-color: white;
+}
+
+.fl-table td, .fl-table th {
+	text-align: center;
+	padding: 8px;
+}
+
+.fl-table td {
+	border-right: 1px solid #f8f8f8;
+	font-size: 12px;
+}
+
+.fl-table thead th {
+	color: #ffffff;
+	background: #604932;
+}
+
+.fl-table thead th:nth-child(odd) {
+	color: #ffffff;
+	background: #604932;
+}
+
+.fl-table tr:nth-child(even) {
+	background: #F8F8F8;
+}
+
+/* Responsive */
+@media ( max-width : 767px) {
+	.fl-table {
+		display: block;
+		width: 100%;
+	}
+	.table-wrapper:before {
+		content: "Scroll horizontally >";
+		display: block;
+		text-align: right;
+		font-size: 11px;
+		color: white;
+		padding: 0 0 10px;
+	}
+	.fl-table thead, .fl-table tbody, .fl-table thead th {
+		display: block;
+	}
+	.fl-table thead th:last-child {
+		border-bottom: none;
+	}
+	.fl-table thead {
+		float: left;
+	}
+	.fl-table tbody {
+		width: auto;
+		position: relative;
+		overflow-x: auto;
+	}
+	.fl-table td, .fl-table th {
+		padding: 20px .625em .625em .625em;
+		height: 60px;
+		vertical-align: middle;
+		box-sizing: border-box;
+		overflow-x: hidden;
+		overflow-y: auto;
+		width: 120px;
+		font-size: 13px;
+		text-overflow: ellipsis;
+	}
+	.fl-table thead th {
+		text-align: left;
+		border-bottom: 1px solid #f7f7f9;
+	}
+	.fl-table tbody tr {
+		display: table-cell;
+	}
+	.fl-table tbody tr:nth-child(odd) {
+		background: none;
+	}
+	.fl-table tr:nth-child(even) {
+		background: transparent;
+	}
+	.fl-table tr td:nth-child(odd) {
+		background: #F8F8F8;
+		border-right: 1px solid #E6E4E4;
+	}
+	.fl-table tr td:nth-child(even) {
+		border-right: 1px solid #E6E4E4;
+	}
+	.fl-table tbody td {
+		display: block;
+		text-align: center;
+	}
+	nav, form {
+		display: flex;
+		justify-content: center;
+	}
+}
+</style>
+<header><nav th:fragment="menu-principal"
+	class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+	<a class="navbar-brand" th:href="@{/}">Pill-Express</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse"
+		data-target="#navbarsExampleDefault"
+		aria-controls="navbarsExampleDefault" aria-expanded="false"
+		aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+		<ul class="navbar-nav mr-auto">
+					</li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/}">Inicio</a>
+			</li>
+								</li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/menu}">Menu</a>
+			</li>
+			<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+				<a class="nav-link" th:href="@{/usuarios/index}">Usuarios</a>
+			</li>
+					<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+				<a class="nav-link" th:href="@{/usuarioPerfil/indexPaginate}">Roles</a>
+			</li>
+				</li>
+					<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+				<a class="nav-link" th:href="@{/ubicaciones/indexPaginate}">Ubicaciones</a>
+			</li>
+			<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+				<a class="nav-link" th:href="@{/productos/indexPaginate}">Productos</a>
+			</li>
+			<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR')">
+				<a class="nav-link" th:href="@{/almacenes/indexPaginate}">Almacenes</a>
+			</li>
+			<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR', 'SUPERVISOR')"> 
+				<a class="nav-link" th:href="@{/pedidos/indexPaginate}">Pedidos</a>
+			</li>
+			<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR', 'SUPERVISOR')"> 
+				<a class="nav-link" th:href="@{/detalles/indexPaginate}">Detalles</a>
+			</li>
+			<li class="nav-item"><a class="nav-link" th:href="@{/tienda}">Tienda</a>
+			</li>
+						<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR', 'SUPERVISOR')"> 
+				<a class="nav-link" th:href="@{/repartidor}">Repartos</a>
+			</li>
+			</li>
+						<li class="nav-item" sec:authorize="hasAnyAuthority('ADMINISTRADOR', 'SUPERVISOR')"> 
+				<a class="nav-link" th:href="@{/repartidor/index}">Lista de Pedidos Pendientes</a>
+			</li>
+		</ul>
+		<div sec:authorize="isAnonymous()">
+			<a class="btn btn-primary" th:href="@{/index}">Ingresar</a>&nbsp; <a
+				class="btn btn-primary" th:href="@{/signup}">Registrarse</a>
+		</div>
+		<div sec:authorize="isAuthenticated()">
+			<span class="text-light">Bienvenido</span>&nbsp;<span
+				class="text-light" sec:authentication="name"></span>&nbsp; <a
+				class="btn btn-primary" th:href="@{/logout}">Salir</a>
+		</div>
+	</div>
+</nav></header>
+<body>
+<h1 style="text-align: center; color: white;">Mapa Repartidores</h1>
+<div id="map"></div>
+<br>
+<div>
+    <label for="lat">Latitud:</label>
+    <input type="text" id="lat" value="40">
+    <label for="lng">Longitud:</label>
+    <input type="text" id="lng" value="-3">
+    <button onclick="updateMap()">Actualizar Mapa</button>
+</div>
+<br>
+<div>
+    <label for="origen">Origen:</label>
+    <select id="origen">
+        <option value="">Seleccionar origen</option>
+        <option value="Almacén 1">Almacén 1</option>
+        <option value="Almacén 2">Almacén 2</option>
+        <option value="Almacén 3">Almacén 3</option>
+        <option value="Calle La Oca">Calle La Oca</option>
+        <option value="Calle Aguacate">Calle Aguacate</option>
+        <option value="Calle Baleares">Calle Baleares</option>
+        <option value="Calle Alicante">Calle Alicante</option>
+        <option value="Calle Valencia">Calle Valencia</option>
+        <option value="Calle Durazno">Calle Durazno</option>
+        <option value="Calle Numancia">Calle Numancia</option>
+    </select>
+    <label for="destino">Destino:</label>
+    <select id="destino">
+        <option value="">Seleccionar destino</option>
+        <option value="Almacén 1">Almacén 1</option>
+        <option value="Almacén 2">Almacén 2</option>
+        <option value="Almacén 3">Almacén 3</option>
+        <option value="Calle La Oca">Calle La Oca</option>
+        <option value="Calle Aguacate">Calle Aguacate</option>
+        <option value="Calle Baleares">Calle Baleares</option>
+        <option value="Calle Alicante">Calle Alicante</option>
+        <option value="Calle Valencia">Calle Valencia</option>
+        <option value="Calle Durazno">Calle Durazno</option>
+        <option value="Calle Numancia">Calle Numancia</option>
+    </select>
+    <button onclick="calcularRuta()">Realizar Ruta</button>
+</div>
+
+<script>
+    let map;
+    let directionsService;
+    let directionsRenderer;
+
+    function initMap() {
+        const mapOptions = {
+            center: { lat: 40.41544173794185, lng: -3.685737346264716 },
+            zoom: 10
+        };
+
+        map = new google.maps.Map(document.getElementById("map"), mapOptions);
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer();
+        directionsRenderer.setMap(map);
+
+        const locations = [
+            { lat: 40.48144498520898, lng: -3.356719115749229, name: "Almacén 1" },
+            { lat: 40.29721820637667, lng: -3.796891656605112, name: "Almacén 2" },
+            { lat: 40.50239361277144, lng: -3.876896480692295, name: "Almacén 3" },
+            { lat: 40.3891475, lng: -3.7385116, name: "Calle La Oca" },
+            { lat: 40.3681122, lng: -3.7417559, name: "Calle Aguacate" },
+            { lat: 40.3935729, lng: -3.7131164, name: "Calle Baleares" },
+            { lat: 40.3942173, lng: -3.6940328, name: "Calle Alicante" },
+            { lat: 40.4068618, lng: -3.6999526, name: "Calle Valencia" },
+            { lat: 40.3778716, lng: -3.7551234, name: "Calle Durazno" },
+            { lat: 40.4563393, lng: -3.7100056, name: "Calle Numancia" }
+        ];
+
+        locations.forEach(function(location) {
+            let iconUrl;
+            if (location.name === "Almacén 1") {
+                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+            } else if (location.name === "Almacén 2") {
+                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+            } 
+            else if (location.name === "Almacén 3") {
+                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+            }
+            else {
+                iconUrl = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'; // Por defecto, otros almacenes en azul
+            }
+
+            new google.maps.Marker({
+                position: { lat: location.lat, lng: location.lng },
+                map: map,
+                title: location.name,
+                icon: {
+                    url: iconUrl
+                }
+            });
+        });
+    }
+
+    function updateMap() {
+        const lat = parseFloat(document.getElementById("lat").value);
+        const lng = parseFloat(document.getElementById("lng").value);
+
+        if (!isNaN(lat) && !isNaN(lng)) {
+            const newCenter = { lat: lat, lng: lng };
+            map.setCenter(newCenter);
+        } else {
+            alert("Por favor, ingresa valores válidos para latitud y longitud.");
+        }
+    }
+
+    function calcularRuta() {
+        const origen = document.getElementById("origen").value;
+        const destino = document.getElementById("destino").value;
+
+        if (origen === "" || destino === "") {
+            alert("Por favor, selecciona tanto el origen como el destino.");
+            return;
+        }
+
+        const request = {
+            origin: origen,
+            destination: destino,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+
+        directionsService.route(request, function(result, status) {
+            if (status == google.maps.DirectionsStatus.OK) {
+                directionsRenderer.setDirections(result);
+            } else {
+                alert("Error al calcular la ruta: " + status);
+            }
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function() {
+        initMap();
+    });
+</script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script> -->
+</body>
+</html>

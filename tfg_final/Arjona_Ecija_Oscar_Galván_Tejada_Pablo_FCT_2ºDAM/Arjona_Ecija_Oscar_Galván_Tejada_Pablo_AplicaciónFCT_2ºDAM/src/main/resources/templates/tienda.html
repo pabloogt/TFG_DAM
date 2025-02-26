@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Listado de productos</title>
+    
+    <link rel="icon" type="image/x-icon" href="/images/pastilla.png">
+    
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+          integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+          crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css"
+          integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r"
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRkMYYR9LFpUUJoDsBpVDyyGz/7c1Wl12FFm3hq5t"
+            crossorigin="anonymous"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+</head>
+
+<style>
+    * {
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+
+    nav, form {
+        display: flex;
+        align-items: center; /* Alinea verticalmente con otros elementos del navbar */
+    }
+
+    body {
+        font-family: Helvetica;
+        -webkit-font-smoothing: antialiased;
+        background: #e83b6c;
+    }
+
+    h2 {
+        text-align: center;
+        font-size: 18px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: white;
+        padding: 30px 0;
+    }
+
+    
+
+
+    /* Responsive */
+    @media ( max-width : 767px) {
+       
+
+        nav, form {
+            display: flex;
+            justify-content: flex-start; 
+        }
+
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        .tg td {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg th {
+            border-color: black;
+            border-style: solid;
+            border-width: 1px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            overflow: hidden;
+            padding: 10px 5px;
+            word-break: normal;
+        }
+
+        .tg .tg-0pky {
+            border-color: inherit;
+            text-align: left;
+            vertical-align: top
+        }
+    }
+
+    .search-container {
+        margin-top: 1px;
+        margin-right: 5px; /* Espacio entre la barra de bÃºsqueda y el boton */
+        margin-left: 10px; /* Espacio desde el borde de la pantalla */
+    }
+
+    .reset-button {
+        padding: 5px 10px;
+        background-color: #ccc;
+        color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 10px;
+    }
+
+    .add-to-cart-button {
+        display: inline-block;
+        background-color: white;
+        padding: 5px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: 28px;
+    }
+
+    .cart-icon {
+        width: 24px;
+        height: auto;
+        fill: #fff;
+    }
+
+    .cart {
+        height: 100%;
+        width: 0;
+        position: fixed;
+        top: 0;
+        right: 0;
+        background-color: white;
+        overflow-x: hidden;
+        transition: 0.5s;
+        padding-top: 60px;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .cart a {
+        text-decoration: none;
+        font-size: 36px;
+        color: black;
+    }
+
+    .cart .closebtn {
+        position: absolute;
+        top: 20px;
+        right: 25px;
+    }
+
+    .open-cart {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #f0c14b;
+        border: 1px solid #a88734;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .cart {
+	    height: 100%;
+	    width: 0;
+	    position: fixed;
+	    top: 0;
+	    right: 0;
+	    background-color: white;
+	    overflow-x: hidden;
+	    transition: 0.5s;
+	    padding-top: 60px;
+	    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+	}
+	
+	.cart a {
+	    text-decoration: none;
+	    font-size: 36px;
+	    color: black;
+	}
+	
+	.cart .closebtn {
+	    position: absolute;
+	    top: 20px;
+	    right: 25px;
+	}
+	
+	#cart-items {
+	    list-style: none;
+	    padding: 0;
+	}
+	
+	#cart-items li {
+	    display: flex;
+	    justify-content: space-between;
+	    align-items: center;
+	    margin: 10px 0;
+	    border-bottom: 1px solid #ccc;
+	    padding-bottom: 10px;
+	}
+	
+	#cart-items img {
+	    width: 50px;
+	    height: 50px;
+	    margin-right: 10px;
+	}
+	
+	.cart-item-details {
+	    display: flex;
+	    flex-direction: column;
+	}
+	
+	.cart-item-name {
+	    font-size: 16px;
+	    font-weight: bold;
+	}
+	
+	.cart-item-price {
+	    font-size: 14px;
+	    color: #888;
+	}
+	
+	.cart-item-remove {
+	    background-color: transparent;
+	    border: none;
+	    color: red;
+	    cursor: pointer;
+	    font-size: 18px;
+	}
+	
+	.checkout-container {
+	    display: flex;
+	    justify-content: center;
+	    margin-top: 20px;
+	}
+	
+	.checkout-button {
+	    background-color: #4CAF50; /* Green */
+	    border: none;
+	    color: white;
+	    padding: 15px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    margin: 4px 2px;
+	    cursor: pointer;
+	    border-radius: 8px;
+	    transition: background-color 0.3s ease;
+	}
+	
+	.checkout-button:hover {
+	    background-color: #45a049;
+	}
+
+	.product-image {
+	    width: 300px; 
+	    height: 300px; 
+	    object-fit: cover; 
+	    display: block;
+	    margin: auto;
+	}
+	
+	
+	.product-card .add-to-cart-button {
+	    background-color: #4CAF50; /* Green */
+	    border: none;
+	    color: white;
+	    padding: 10px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    transition: background-color 0.3s ease;
+	}
+	
+	.product-card .add-to-cart-button:hover {
+	    background-color: #45a049;
+	}
+	
+	.description-button {
+	    background-color: #dae8fc; 
+	    border: 2px dashed #007bb5;
+	    color: black;
+	    padding: 10px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    cursor: pointer;
+	    border-radius: 5px;
+	    transition: background-color 0.3s ease;
+	}
+	
+	.description-button:hover {
+	    background-color: #007bb5;
+	}
+	
+	.modal {
+	    display: none;
+	    position: fixed; 
+	    z-index: 1; 
+	    padding-top: 100px; 
+	    left: 0;
+	    top: 0;
+	    width: 100%; 
+	    height: 100%; 
+	    overflow: auto; 
+	    background-color: rgb(0,0,0); 
+	    background-color: rgba(0,0,0,0.4);
+	}
+	
+	.modal-content {
+	    background-color: #fefefe;
+	    margin: auto;
+	    padding: 20px;
+	    border: 1px solid #888;
+	    width: 80%;
+	    max-width: 500px;
+	    border-radius: 10px;
+	}
+	
+	.close {
+	    color: #aaa;
+	    float: right;
+	    font-size: 28px;
+	    font-weight: bold;
+	}
+	
+	.close:hover,
+	.close:focus {
+	    color: black;
+	    text-decoration: none;
+	    cursor: pointer;
+	}
+
+</style>
+
+<body>
+<header>
+    <nav class="navbar navbar-default">
+        <form class="navbar-form navbar-left" id="searchForm" action="#" method="GET"
+              onsubmit="event.preventDefault(); searchProducts()">
+            <div class="search-container">
+                <div class="form-group">
+                    <input type="text" class="form-control search-box" name="search" id="searchInput"
+                           placeholder="Buscar..."
+                           onkeydown="if (event.keyCode === 13) { searchProducts(); event.preventDefault(); }">
+                </div>
+                <button type="button" class="reset-button" onclick="resetProducts()">Reset</button>
+            </div>
+        </form>
+        <div class="container-fluid" style="margin-left: 220px;">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#" style="color: #000; font-size: 24px; font-weight: bold; text-decoration: none; display:flex;">
+                    <img src="/images/pastilla.png" alt="Pastilla" style="width: 20px; height: auto; margin-right: 8px;">
+                    Pill-Express
+                </a>
+            </div>
+
+            <ul class="nav navbar-nav">
+                <li><a href="javascript:void(0)" onclick="openCart()">Carrito de la Compra</a></li>
+                <li><a href="http://localhost:8080/">Salir</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<h1 class="text-primary"
+    style="color: #ffffff; display: flex; justify-content: center;">Lista de productos</h1>
+<br>
+<div style="display: flex; flex-direction: column; align-items: center;">
+    <div th:each="producto : ${productos}" class="product" style="margin-bottom: 20px; position: relative;">
+        <div th:id="'product-' + ${producto.id}" class="product-card" style="display:block;">
+            <table
+                    style="border-collapse: separate; border-spacing: 10px; border-radius: 10px; border: 2px solid #000; margin: 10px; background-color: #fff;">
+                <thead>
+                <tr>
+                    <th style="background-color: #dae8fc; border: 1px solid black; color: #000; text-align: center; vertical-align: top; font-family: Arial, sans-serif; font-size: 14px; padding: 10px 5px; word-break: normal;"
+                        th:text="'ID: ' + ${producto.id}"></th>
+                    <th style="background-color: #dae8fc; border: 1px solid black; color: #000; text-align: center; vertical-align: top; font-family: Arial, sans-serif; font-size: 14px; padding: 10px 5px; word-break: normal;"
+                        colspan="2" th:text="'Nombre: ' + ${producto.nombre}" class="product-name"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="background-color: #dae8fc; border: 1px solid black; color: #000; text-align: center; vertical-align: middle; font-family: Arial, sans-serif; font-size: 14px; padding: 10px 5px; word-break: normal;"
+                        colspan="3">
+                        <img th:src="@{/logos/{img}(img=${producto.imagen})}" 
+                             style="display: block; margin: auto;" class="product-image">
+                    </td>
+                </tr>
+                <tr>
+                    <td style="background-color: #dae8fc; border: 1px solid black; color: #000; text-align: center; vertical-align: top; font-family: Arial, sans-serif; font-size: 14px; padding: 10px 5px; word-break: normal;"
+                        th:text="'Precio: ' + ${producto.precio} + '$'" class="product-precio"></td>
+                    <td>
+                        <button th:onclick="'verDescripcion(' + ${producto.id}+ ')'" class="description-button">Descripcion</button>
+                    </td>	
+                     <td style="display:none;" class="tg-dv8m descc" th:text="${producto.descripcion}"></td>
+                    
+                    <td style="background-color: #dae8fc; border: 1px solid black; color: #000; text-align: right; vertical-align: top; font-family: Arial, sans-serif; font-size: 14px; padding: 10px 5px; word-break: normal;"
+                        th:text="'Stock: ' + ${producto.cantidad_disponible}" class="product-stock"></td>
+                </tr>
+                <tr>
+                    <td colspan="3" style="text-align: right; padding-right: 10px;">
+                        <button th:onclick="'addToCart(' + ${producto.id}+ ')'" class="add-to-cart-button fa fa-cart-plus"
+                                data-id="${producto.id}" title="AÃ±adir a la cesta">
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+                                       
+
+<!-- Carrito de la compra -->
+<div id="cart" class="cart">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeCart()">&times;</a>
+    <h2 style="color:black;">Carrito de la Compra</h2>
+    <div id="total-items" style="text-align:center; margin-top:10px;">
+	    Productos en la cesta: <span id="total-count">0</span>
+	    <span style="display:none;" sec:authentication="name" id="nombreUsuario"></span>
+	</div>
+    <ul id="cart-items"></ul>
+    <div id="total-price" style="text-align:center; margin-top:20px;">
+	    Total: <span id="total-precio">0.00</span>€
+	</div>
+    <div class="checkout-container">
+        <button onclick="checkout()" class="checkout-button">Hacer Compra</button>
+    </div>
+</div>
+<!-- Modal de descripcion-->
+<div id="descriptionModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2 style="color:black; font-size:20px;">Descripcion:</h2>
+        <p id="modal-description" style="color:#007bb5; font-size:17px;"></p>
+    </div>
+</div>
+
+<script>
+    // Funcion para realizar la bÃºsqueda de productos
+    function searchProducts() {
+        var searchTerm = document.getElementById("searchInput").value.trim().toLowerCase();
+        var products = document.querySelectorAll(".product");
+        products.forEach(function (product) {
+            var productName = product.querySelector(".product-name").textContent.trim().toLowerCase();
+            if (productName.includes(searchTerm)) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    }
+
+    // Funcion para resetear la bÃºsqueda y mostrar todos los productos
+    function resetProducts() {
+        var products = document.querySelectorAll(".product");
+        products.forEach(function (product) {
+            product.style.display = "block";
+        });
+        document.getElementById("searchInput").value = ""; // Limpiar el campo de bÃºsqueda
+    }
+
+    // Funcion para abrir el carrito
+    function openCart() {
+        document.getElementById("cart").style.width = "300px";
+    }
+
+    // Funcion para cerrar el carrito
+    function closeCart() {
+        document.getElementById("cart").style.width = "0";
+    }
+
+    
+    function addToCart(button) {
+        var productCard = document.querySelector("#product-" + button);
+        var productName = productCard.querySelector(".product-name").textContent;
+        var productImage = productCard.querySelector(".product-image").src;
+        var productPrecio = productCard.querySelector(".product-precio").textContent;
+
+        // Obtener el precio en formato numérico
+        var productPriceNumber = parseFloat(productPrecio.replace('Precio: ', '').replace('€', '').replace(',', '.').trim());
+
+        var cartItems = document.getElementById("cart-items");
+        var li = document.createElement("li");
+        li.setAttribute("data-id", button);
+        li.setAttribute("data-price", productPriceNumber);
+
+        var itemDetails = document.createElement("div");
+        itemDetails.className = "cart-item-details";
+
+        var nameSpan = document.createElement("span");
+        nameSpan.className = "cart-item-name";
+        nameSpan.textContent = productName;
+
+        var priceSpan = document.createElement("span");
+        priceSpan.className = "cart-item-price";
+        priceSpan.textContent = productPrecio;
+
+        itemDetails.appendChild(nameSpan);
+        itemDetails.appendChild(priceSpan);
+
+        var img = document.createElement("img");
+        img.setAttribute("src", productImage);
+        img.style.width = "50px";
+        img.style.height = "50px";
+        img.style.marginRight = "10px";
+
+        var removeButton = document.createElement("button");
+        removeButton.className = "cart-item-remove";
+        removeButton.textContent = "Eliminar";
+        removeButton.onclick = function () {
+            li.remove();
+            updateTotalPrice();
+            updateTotalItems();
+        };
+
+        li.appendChild(img);
+        li.appendChild(itemDetails);
+        li.appendChild(removeButton);
+        cartItems.appendChild(li);
+
+        updateTotalPrice();
+        updateTotalItems();
+
+    }
+
+    function updateTotalPrice() {
+        var cartItems = document.querySelectorAll("#cart-items li");
+        var totalPrice = 0;
+
+        cartItems.forEach(function (item) {
+            var itemPrice = parseFloat(item.getAttribute("data-price"));
+            totalPrice += itemPrice;
+        });
+
+        document.getElementById("total-precio").textContent = totalPrice.toFixed(2);
+    }
+
+    function updateTotalItems() {
+        var cartItems = document.querySelectorAll("#cart-items li");
+        var totalItems = cartItems.length;
+
+        document.getElementById("total-count").textContent = totalItems;
+    }
+    
+    function checkout() {
+        var cartItems = document.querySelectorAll("#cart-items li");
+        var productIds = Array.from(cartItems).map(function (li) {
+            return li.getAttribute("data-id");
+        });
+
+        if (productIds.length === 0) {
+            alert("No hay productos en el carrito.");
+            return;
+        }
+
+        var totalPrecio = parseFloat(document.getElementById("total-precio").textContent);
+        var totalItems = parseInt(document.getElementById("total-count").textContent);
+        var nombreUsuario = document.getElementById("nombreUsuario").textContent;
+        // Crear datos de formulario codificados en URL
+        var formData = new URLSearchParams();
+        formData.append("productoIds", productIds.join(','));
+        formData.append("importe", totalPrecio.toFixed(2));
+        formData.append("totalProductos", totalItems);
+        formData.append("nombreUsuario", nombreUsuario);
+        // Crear la URL con los parámetros
+        var url = '/hacerCompra?' + formData.toString();
+
+        // Imprimir la URL que se va a enviar
+        console.log('URL enviada:', url);
+
+        // Enviar los datos al backend usando GET
+        fetch(url, {
+            method: 'GET',
+        })
+        .then(response => {
+            console.log('Respuesta del servidor:', response);
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text) });
+            }
+            return response.text();
+        })
+        .then(data => {
+            alert("Compra realizada con éxito");
+            window.location.href = "/compraConfirmada";
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("Hubo un error al procesar la compra. Por favor, inténtelo de nuevo.\n" + error.message);
+        });
+    }
+
+    function verDescripcion(description) {
+        var productCard = document.querySelector("#product-" + description);
+        var productName = productCard.querySelector(".descc").textContent;
+        
+        document.getElementById('modal-description').innerText = productName;
+        document.getElementById('descriptionModal').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('descriptionModal').style.display = 'none';
+    }
+
+
+    
+</script>
+</body>
+
+</html>

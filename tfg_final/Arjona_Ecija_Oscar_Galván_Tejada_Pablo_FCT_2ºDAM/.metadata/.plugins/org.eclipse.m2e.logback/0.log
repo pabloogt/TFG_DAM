@@ -1,0 +1,25 @@
+2024-05-31 18:22:11,658 [Worker-8: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2024-05-31 18:23:01,579 [Worker-4: Building] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: net.itinajero:empleos:0.0.1-SNAPSHOT @ C:\Users\pablo\Documents\tfg_final\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_FCT_2ºDAM\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM\pom.xml.
+2024-05-31 18:23:07,119 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-05-31 18:23:07,123 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-05-31 18:23:07,139 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 178 resources
+2024-05-31 18:23:09,033 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-05-31 18:23:09,033 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\pablo\Documents\tfg_final\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_FCT_2ºDAM\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM\src\test\resources
+2024-05-31 18:23:26,804 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-05-31 18:23:26,818 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-05-31 18:23:26,840 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2024-05-31 18:23:26,843 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-05-31 18:23:26,843 [Worker-16: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\pablo\Documents\tfg_final\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_FCT_2ºDAM\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM\src\test\resources
+2024-05-31 18:23:45,656 [Worker-21: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update started
+2024-05-31 18:23:45,814 [Worker-21: Updating Maven Project] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: net.itinajero:empleos:0.0.1-SNAPSHOT @ C:\Users\pablo\Documents\tfg_final\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_FCT_2ºDAM\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM\pom.xml.
+2024-05-31 18:23:46,308 [Worker-21: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM/src/main/java
+2024-05-31 18:23:46,309 [Worker-21: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM/src/main/resources
+2024-05-31 18:23:46,315 [Worker-21: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM/src/main/resources
+2024-05-31 18:23:46,322 [Worker-21: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding source folder /Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM/src/test/java
+2024-05-31 18:23:46,322 [Worker-21: Updating Maven Project] INFO  o.e.m.j.i.AbstractJavaProjectConfigurator - Adding resource folder /Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM/src/test/resources
+2024-05-31 18:23:46,667 [Worker-21: Updating Maven Project] INFO  o.e.m.c.i.p.ProjectConfigurationManager - Update completed for 1 poms: local refresh takes 0,00 sec, refresh facades takes 0,00 sec, update config takes 0,00 sec 
+2024-05-31 18:23:47,277 [Worker-0: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-05-31 18:23:47,279 [Worker-0: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2024-05-31 18:23:47,291 [Worker-0: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 178 resources
+2024-05-31 18:23:47,636 [Worker-0: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2024-05-31 18:23:47,636 [Worker-0: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\pablo\Documents\tfg_final\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_FCT_2ºDAM\Arjona_Ecija_Oscar_Galván_Tejada_Pablo_AplicaciónFCT_2ºDAM\src\test\resources
